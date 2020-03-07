@@ -31,7 +31,7 @@ linters-settings:
     #ignore-words:
     #  - someword
   goimports:
-    local-prefixes: github.com/heroku/docker-registry-client
+    local-prefixes: github.com/velp/docker-registry-client
   gocyclo:
     # minimal code complexity to report, 30 by default (but we recommend 10-20)
     min-complexity: 14
