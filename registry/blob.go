@@ -69,6 +69,24 @@ func (registry *Registry) HasBlob(repository string, digest digest.Digest) (bool
 	return false, err
 }
 
+func (registry *Registry) DeleteBlob(repository string, digest digest.Digest) error {
+	url := registry.url("/v2/%s/blobs/%s", repository, digest)
+	registry.Logf("registry.blob.delete url=%s repository=%s digest=%s", url, repository, digest)
+
+	req, err := http.NewRequest("DELETE", url, nil)
+	if err != nil {
+		return err
+	}
+	resp, err := registry.Client.Do(req)
+	if resp != nil {
+		defer resp.Body.Close()
+	}
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (registry *Registry) BlobMetadata(repository string, digest digest.Digest) (distribution.Descriptor, error) {
 	checkURL := registry.url("/v2/%s/blobs/%s", repository, digest)
 	registry.Logf("registry.blob.check url=%s repository=%s digest=%s", checkURL, repository, digest)
